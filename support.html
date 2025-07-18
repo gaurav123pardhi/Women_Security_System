@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Integrations & Support</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #fdf5f8;
+      padding: 30px;
+      color: #333;
+    }
+    h2 {
+      text-align: center;
+      color: #d81b60;
+      font-size: 30px;
+      margin-bottom: 30px;
+    }
+    .section {
+      max-width: 750px;
+      margin: 20px auto;
+      background: #fff4f7;
+      padding: 20px;
+      border-left: 5px solid #ec407a;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .section:hover {
+      transform: translateY(-5px);
+    }
+    .section h3 {
+      color: #b71c1c;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>🤝 Integrations & Support</h2>
+  <div id="supportSection"></div>
+
+  <script>
+    const integrations = [
+      {
+        title: "📡 Integration with Police Systems",
+        detail: "Connects to local police departments for instant location alerts in emergencies."
+      },
+      {
+        title: "📲 Mobile App Sync",
+        detail: "Seamless sync with Android/iOS apps for alerts, tracking, and notifications."
+      },
+      {
+        title: "🔗 WhatsApp/Email Alerts",
+        detail: "Integrated messaging APIs to alert family/friends and authorities."
+      },
+      {
+        title: "🛠️ 24/7 Support",
+        detail: "Live chatbot and email support available for technical issues or emergencies."
+      }
+    ];
+
+    const container = document.getElementById('supportSection');
+    integrations.forEach((entry, index) => {
+      const div = document.createElement('div');
+      div.className = 'section';
+      div.innerHTML = `<h3>${entry.title}</h3><p>${entry.detail}</p>`;
+      container.appendChild(div);
+    });
+  </script>
+</body>
+</html>

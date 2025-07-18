@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Notification Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #f8bbd0, #fce4ec);
+      color: #333;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .form-container {
+      background-color: #fff;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    h2 {
+      text-align: center;
+      color: #d81b60;
+      margin-bottom: 30px;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+      color: #444;
+    }
+    input[type="time"] {
+      width: 100%;
+      padding: 10px 15px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #e91e63;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      width: 100%;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #c2185b;
+      transform: scale(1.03);
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Set Your Outing Time</h2>
+    <form onsubmit="handleSubmit(event)">
+      <label for="outTime">Time of Going Out:</label>
+      <input type="time" id="outTime" name="outTime" required>
+
+      <label for="inTime">Expected Time of Coming Back:</label>
+      <input type="time" id="inTime" name="inTime" required>
+
+      <button type="submit">Save</button>
+    </form>
+  </div>
+
+  <!-- LOUD siren-style beep -->
+  <audio id="alarmSound" preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_ae3b81f7a8.mp3?filename=alert-204526.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    let savedTime = null;
+    const alarm = document.getElementById("alarmSound");
+
+    // Ask notification permission on load
+    window.onload = () => {
+      if ("Notification" in window && Notification.permission !== "granted") {
+        Notification.requestPermission();
+      }
+    };
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      const outTime = document.getElementById("outTime").value;
+      const inTime = document.getElementById("inTime").value;
+      savedTime = inTime;
+      alarm.play().then(() => {
+        alarm.pause(); // Unlock audio on first interaction
+        alarm.currentTime = 0;
+      });
+      alert(`Outing scheduled from ${outTime} to ${inTime}. You'll be notified at return time.`);
+    }
+
+    function notifyUser() {
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification("⏰ Time to come back home! Stay safe.");
+      }
+    }
+
+    function triggerReminder() {
+      alarm.currentTime = 0;
+      alarm.play().catch(err => console.log("Audio play blocked:", err));
+      notifyUser();
+      const userConfirmed = confirm("⏰ It's your return time! Click OK if you’re safe.");
+
+      if (userConfirmed) {
+        setTimeout(() => {
+          alarm.currentTime = 0;
+          alarm.play().catch(err => console.log("Audio play blocked:", err));
+          notifyUser();
+          alert("⏳ Reminder: Please confirm you're safe or update your location.");
+        }, 2 * 60 * 1000); // 2 minutes later
+      }
+    }
+
+    function checkTime() {
+      if (!savedTime) return;
+      const now = new Date();
+      const currentTime = now.toTimeString().slice(0, 5);
+
+      if (currentTime === savedTime) {
+        triggerReminder();
+        savedTime = null;
+      }
+    }
+
+    setInterval(checkTime, 10000); // check every 10s
+  </script>
+</body>
+</html>
+

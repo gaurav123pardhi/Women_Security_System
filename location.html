@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Live Location, SOS & Camera</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #fce4ec, #f8bbd0);
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #ad1457;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 26px;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff0f5;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    button {
+      background: #ec407a;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 10px 0;
+    }
+    button:hover {
+      background: #ad1457;
+    }
+    iframe, video, img {
+      width: 100%;
+      max-width: 400px;
+      margin-top: 10px;
+      border-radius: 10px;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 18px;
+      background: #ec407a;
+      color: white;
+      text-decoration: none;
+      border-radius: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>Live Location, SOS & Camera</header>
+
+  <div class="container">
+    <h2>📍 Share Your Location</h2>
+    <button id="getLiveLocation">Get Location</button>
+    <div id="locationDisplay">Location not shared yet.</div>
+    <iframe id="mapFrame" src=""></iframe>
+    <button onclick="shareOnWhatsApp()">Share Location via WhatsApp</button>
+
+    <h2>🚨 Send SOS Alert</h2>
+    <button onclick="sendSOS()">Send SOS Alert</button>
+
+    <h2>📸 Capture & Share Image</h2>
+    <button onclick="startCamera()">Start Camera</button>
+    <button onclick="captureImage()">Capture Image</button>
+    <video id="cameraPreview" autoplay></video>
+    <img id="capturedImage" src="" alt="Captured image will appear here" />
+    <button onclick="uploadAndShareImage()">Share Captured Photo via WhatsApp</button>
+
+    <a href="2page.html" class="back-btn">⬅ Back to Home</a>
+  </div>
+
+  <script>
+    let latitude = null, longitude = null;
+    const button = document.getElementById("getLiveLocation");
+
+    button.addEventListener("click", function () {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+        document.getElementById("locationDisplay").innerText = `Latitude: ${latitude}, Longitude: ${longitude}`;
+        document.getElementById("mapFrame").src = `https://www.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`;
+      }, function(error) {
+        alert("Location access failed: " + error.message);
+      });
+    });
+
+    function shareOnWhatsApp() {
+      if (!latitude || !longitude) {
+        alert("Please get your location first.");
+        return;
+      }
+      const message = `🚨 Help Needed! My location: https://www.google.com/maps?q=${latitude},${longitude}`;
+      const phone = "9972083115";
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+    }
+
+    function sendSOS() {
+      if (!latitude || !longitude) {
+        alert("Please get your location first.");
+        return;
+      }
+      alert(`🚨 SOS Sent! Location: https://www.google.com/maps?q=${latitude},${longitude}`);
+    }
+
+    // Camera & Upload
+    let videoStream;
+    function startCamera() {
+      const video = document.getElementById('cameraPreview');
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          videoStream = stream;
+          video.srcObject = stream;
+        })
+        .catch(err => alert("Error accessing camera: " + err.message));
+    }
+
+    function captureImage() {
+      const video = document.getElementById('cameraPreview');
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0);
+      const imageUrl = canvas.toDataURL('image/png');
+      document.getElementById('capturedImage').src = imageUrl;
+
+      // Stop camera
+      if (videoStream) {
+        videoStream.getTracks().forEach(track => track.stop());
+      }
+    }
+
+    function uploadAndShareImage() {
+      const imageData = document.getElementById('capturedImage').src;
+
+      if (!imageData || !imageData.startsWith("data:image")) {
+        alert("Capture image first.");
+        return;
+      }
+
+      fetch('upload_image.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: imageData })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          const msg = `🚨 Emergency photo: ${data.url}`;
+          const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+          window.open(url, '_blank');
+        } else {
+          alert("Failed to upload image.");
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Error sharing image.");
+      });
+    }
+  </script>
+</body>
+</html>
+
+

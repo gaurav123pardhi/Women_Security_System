@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Authentication & Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #fff0f5, #ffe4e1);
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      transition: background 0.5s ease;
+    }
+    body.dark-mode {
+      background: #121212;
+      color: #e0e0e0;
+    }
+    header {
+      background-color: #d81b60;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #fff5f7;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease-in-out;
+    }
+    body.dark-mode .container {
+      background: #1f1f1f;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h2 {
+      color: #c2185b;
+      margin-bottom: 10px;
+    }
+    label {
+      font-weight: 500;
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input[type="text"], input[type="email"], input[type="password"], input[type="file"], select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    textarea {
+      resize: vertical;
+    }
+    .form-section {
+      margin-top: 30px;
+    }
+    button {
+      background: #ec407a;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #c2185b;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 10px 18px;
+      background: #ec407a;
+      color: white;
+      text-decoration: none;
+      border-radius: 20px;
+    }
+    #preview {
+      display: block;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-top: 10px;
+    }
+    .status {
+      margin-top: 20px;
+      padding: 10px;
+      background: #d1f0d1;
+      color: #2e7d32;
+      border: 1px solid #81c784;
+      border-radius: 10px;
+      display: none;
+    }
+    .toggle-pass {
+      position: relative;
+    }
+    .toggle-pass-icon {
+      position: absolute;
+      right: 10px;
+      top: 35px;
+      cursor: pointer;
+      color: #888;
+    }
+    #strengthMeter {
+      height: 6px;
+      width: 100%;
+      background: #eee;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    #strengthBar {
+      height: 100%;
+      width: 0%;
+      background-color: red;
+      border-radius: 5px;
+      transition: width 0.3s ease;
+    }
+    .theme-toggle {
+      float: right;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: -20px;
+      color: white;
+    }
+  </style>
+</head>
+<body onload="loadProfile()">
+  <header>
+    Authentication & Profile
+    <span class="theme-toggle" onclick="toggleTheme()">🌙 Toggle Theme</span>
+  </header>
+
+  <div class="container">
+    <h2>User Account Information</h2>
+    <label for="name">Full Name</label>
+    <input type="text" id="name" placeholder="Enter your name" required>
+
+    <label for="email">Email Address</label>
+    <input type="email" id="email" placeholder="Enter your email" required>
+
+    <label for="phone">Phone Number</label>
+    <input type="text" id="phone" placeholder="Enter phone number">
+
+    <label for="bio">Short Bio</label>
+    <textarea id="bio" placeholder="Write something about you..." rows="3"></textarea>
+
+    <label for="profilePic">Profile Picture</label>
+    <input type="file" id="profilePic" accept="image/*" onchange="previewProfile()">
+    <img id="preview" src="" alt="Profile Preview" style="display:none;"/>
+
+    <label for="emergencyContact">Emergency Contact Number</label>
+    <input type="text" id="emergencyContact" placeholder="Enter emergency contact">
+    <button onclick="testEmergencyContact()">📞 Test Contact</button>
+
+    <div class="form-section">
+      <h2>Security Settings</h2>
+      <label for="password">Password</label>
+      <div class="toggle-pass">
+        <input type="password" id="password" placeholder="Enter password" oninput="checkPasswordStrength()">
+        <span class="toggle-pass-icon" onclick="togglePassword()">👁️</span>
+      </div>
+      <div id="strengthMeter"><div id="strengthBar"></div></div>
+
+      <label for="securityQ">Security Question</label>
+      <select id="securityQ">
+        <option>What is your pet's name?</option>
+        <option>What is your mother's maiden name?</option>
+        <option>What is your favorite city?</option>
+      </select>
+
+      <label for="securityA">Answer</label>
+      <input type="text" id="securityA" placeholder="Your answer">
+
+      <label><input type="checkbox" id="enable2FA"> Enable Two-Factor Authentication (2FA)</label>
+
+      <button onclick="saveProfile()">💾 Save Profile</button>
+      <div class="status" id="statusBox">✅ Profile saved successfully!</div>
+    </div>
+
+    <div class="form-section">
+      <h2>Privacy & Notifications</h2>
+      <label><input type="checkbox" id="liveLocation"> Enable live location tracking</label>
+      <label><input type="checkbox" id="autoSOS"> Enable auto-SOS via shake</label>
+      <label><input type="checkbox" id="tipsNotify"> Receive safety tips notifications</label>
+
+      <label for="language">Preferred Language</label>
+      <select id="language">
+        <option>English</option>
+        <option>Hindi</option>
+        <option>Spanish</option>
+        <option>French</option>
+      </select>
+    </div>
+
+    <a href="2page.html" class="back-btn">⬅ Back to Home</a>
+  </div>
+
+  <script>
+    function previewProfile() {
+      const file = document.getElementById('profilePic').files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const preview = document.getElementById('preview');
+          preview.src = reader.result;
+          preview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function togglePassword() {
+      const passInput = document.getElementById("password");
+      passInput.type = passInput.type === "password" ? "text" : "password";
+    }
+
+    function testEmergencyContact() {
+      const contact = document.getElementById("emergencyContact").value;
+      if (contact) {
+        speak(`Test message sent to ${contact}`);
+        alert("Test message sent to: " + contact);
+      } else {
+        alert("Please enter an emergency contact first.");
+      }
+    }
+
+    function saveProfile() {
+      const data = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        emergencyContact: document.getElementById("emergencyContact").value,
+        password: document.getElementById("password").value,
+        securityQ: document.getElementById("securityQ").value,
+        securityA: document.getElementById("securityA").value,
+        bio: document.getElementById("bio").value,
+        enable2FA: document.getElementById("enable2FA").checked,
+        liveLocation: document.getElementById("liveLocation").checked,
+        autoSOS: document.getElementById("autoSOS").checked,
+        tipsNotify: document.getElementById("tipsNotify").checked,
+        language: document.getElementById("language").value
+      };
+      localStorage.setItem("userProfile", JSON.stringify(data));
+      document.getElementById("statusBox").style.display = "block";
+      speak("Profile saved successfully.");
+      setTimeout(() => {
+        document.getElementById("statusBox").style.display = "none";
+      }, 3000);
+    }
+
+    function loadProfile() {
+      const saved = JSON.parse(localStorage.getItem("userProfile"));
+      if (saved) {
+        document.getElementById("name").value = saved.name || "";
+        document.getElementById("email").value = saved.email || "";
+        document.getElementById("phone").value = saved.phone || "";
+        document.getElementById("emergencyContact").value = saved.emergencyContact || "";
+        document.getElementById("password").value = saved.password || "";
+        document.getElementById("securityQ").value = saved.securityQ || "";
+        document.getElementById("securityA").value = saved.securityA || "";
+        document.getElementById("bio").value = saved.bio || "";
+        document.getElementById("enable2FA").checked = saved.enable2FA || false;
+        document.getElementById("liveLocation").checked = saved.liveLocation || false;
+        document.getElementById("autoSOS").checked = saved.autoSOS || false;
+        document.getElementById("tipsNotify").checked = saved.tipsNotify || false;
+        document.getElementById("language").value = saved.language || "English";
+      }
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("dark-mode");
+    }
+
+    function checkPasswordStrength() {
+      const pass = document.getElementById("password").value;
+      const strengthBar = document.getElementById("strengthBar");
+      let strength = 0;
+      if (pass.length > 6) strength += 1;
+      if (/[A-Z]/.test(pass)) strength += 1;
+      if (/[0-9]/.test(pass)) strength += 1;
+      if (/[\W]/.test(pass)) strength += 1;
+
+      const width = (strength / 4) * 100;
+      strengthBar.style.width = width + "%";
+      strengthBar.style.background = ["red", "orange", "yellow", "green"][strength - 1] || "red";
+    }
+
+    function speak(message) {
+      const utter = new SpeechSynthesisUtterance(message);
+      window.speechSynthesis.speak(utter);
+    }
+  </script>
+</body>
+</html>
+

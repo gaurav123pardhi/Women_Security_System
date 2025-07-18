@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Emergency Services</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #f8bbd0, #fce4ec);
+      color: #333;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      background-color: #c2185b;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 26px;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff5f7;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #ad1457;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .service {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      background: #fce4ec;
+      padding: 15px 20px;
+      margin: 15px 0;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .service:hover {
+      transform: translateY(-3px);
+    }
+
+    .service-title {
+      font-size: 18px;
+      font-weight: 600;
+      flex: 1 1 60%;
+    }
+
+    .service-number {
+      font-size: 18px;
+      font-weight: bold;
+      color: #d81b60;
+      flex: 0 0 auto;
+      margin-right: 15px;
+    }
+
+    .service a {
+      text-decoration: none;
+      color: white;
+      background-color: #ec407a;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 500;
+      transition: background 0.3s;
+      flex-shrink: 0;
+    }
+
+    .service a:hover {
+      background-color: #c2185b;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background: #ec407a;
+      color: white;
+      text-decoration: none;
+      border-radius: 25px;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+
+    .back-btn:hover {
+      background: #c2185b;
+    }
+
+    @media (max-width: 600px) {
+      .service {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .service-number,
+      .service a {
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>🚨 Emergency Services</header>
+
+  <div class="container">
+    <h2>Quick Access to Help</h2>
+
+    <div class="service">
+      <div class="service-title">👮 Police (Emergency)</div>
+      <div class="service-number">100</div>
+      <a href="tel:100">Call Now</a>
+    </div>
+
+    <div class="service">
+      <div class="service-title">🚨 Women Helpline</div>
+      <div class="service-number">1091</div>
+      <a href="tel:1091">Call Now</a>
+    </div>
+
+    <div class="service">
+      <div class="service-title">🚑 Ambulance</div>
+      <div class="service-number">102</div>
+      <a href="tel:102">Call Now</a>
+    </div>
+
+    <div class="service">
+      <div class="service-title">👩‍⚕️ Medical Emergency</div>
+      <div class="service-number">108</div>
+      <a href="tel:108">Call Now</a>
+    </div>
+
+    <div class="service">
+      <div class="service-title">🆘 National Emergency Number</div>
+      <div class="service-number">112</div>
+      <a href="tel:112">Call Now</a>
+    </div>
+
+    <div class="service">
+      <div class="service-title">👩‍💼 Women Rights NGO</div>
+      <div class="service-number">+91 9999 000 111</div>
+      <a href="tel:+919999000111">Call Now</a>
+    </div>
+
+    <a href="2page.html" class="back-btn">⬅ Back to Home</a>
+  </div>
+
+</body>
+</html>

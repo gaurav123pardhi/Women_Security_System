@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Enhancements</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #ffe0e9, #ffd8d8);
+      padding: 30px;
+      color: #333;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+    h2 {
+      text-align: center;
+      color: #ad1457;
+      margin-bottom: 30px;
+      font-size: 32px;
+    }
+    .feature {
+      background: #fff3f7;
+      border-left: 5px solid #ec407a;
+      padding: 20px;
+      margin: 20px auto;
+      border-radius: 10px;
+      max-width: 700px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      animation: fadeIn 0.5s ease-in-out forwards;
+    }
+    .feature h3 {
+      color: #c2185b;
+      margin-bottom: 10px;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    .controls {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .controls button {
+      background: #ec407a;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      margin: 5px;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .controls button:hover {
+      background: #ad1457;
+    }
+
+    .score-container {
+      background: #eee;
+      border-radius: 10px;
+      overflow: hidden;
+      max-width: 700px;
+      margin: 30px auto;
+      height: 20px;
+    }
+    #scoreBar {
+      height: 100%;
+      width: 0%;
+      background-color: #4caf50;
+      transition: width 1s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🎨 UI/UX Design Enhancements</h2>
+
+  <div class="controls">
+    <button onclick="cycleTheme()">🌗 Switch Theme</button>
+    <button onclick="summarizeAI()">🧠 Summarize Enhancements</button>
+  </div>
+
+  <div class="score-container">
+    <div id="scoreBar"></div>
+  </div>
+
+  <div id="features"></div>
+
+  <script>
+    const enhancements = [
+      {
+        title: "🌈 Improved Accessibility",
+        content: "Larger, clearer fonts with better contrast for readability in all light conditions."
+      },
+      {
+        title: "📱 Mobile First Design",
+        content: "App optimized for all screen sizes, including touch-friendly buttons for quick actions in emergencies."
+      },
+      {
+        title: "🖼️ Friendly Visuals",
+        content: "Use of supportive colors and icons designed to create a welcoming, secure experience for women."
+      },
+      {
+        title: "🔊 Audio Assistance",
+        content: "Voice-guided support and feedback for users with disabilities or in stressful situations."
+      }
+    ];
+
+    const container = document.getElementById('features');
+    enhancements.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'feature';
+      div.style.animationDelay = `${i * 0.2}s`;
+      div.innerHTML = `<h3>${item.title}</h3><p>${item.content}</p>`;
+      container.appendChild(div);
+    });
+
+    // 🌗 Theme Switching
+    let themeIndex = 0;
+    const themes = [
+      ['#ffe0e9', '#ffd8d8', '#333'],   // Light
+      ['#1e1e1e', '#333', '#e0e0e0'],   // Dark
+      ['#000000', '#FFD700', '#ffffff'] // High Contrast
+    ];
+
+    function cycleTheme() {
+      themeIndex = (themeIndex + 1) % themes.length;
+      const [bgStart, bgEnd, textColor] = themes[themeIndex];
+      document.body.style.background = `linear-gradient(to right, ${bgStart}, ${bgEnd})`;
+      document.body.style.color = textColor;
+    }
+
+    // 🧠 AI Summary (with female voice)
+    function summarizeAI() {
+      const voices = speechSynthesis.getVoices();
+      let femaleVoice = voices.find(v => v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('zira') || v.name.toLowerCase().includes('google'));
+
+      const msg = new SpeechSynthesisUtterance(
+        "This interface includes accessibility improvements, mobile-friendly design, emotionally supportive visuals, and voice-guided assistance — all crafted to enhance user safety and comfort."
+      );
+      msg.voice = femaleVoice || voices[0]; // fallback
+      msg.pitch = 1.2;
+      msg.rate = 1;
+      speechSynthesis.speak(msg);
+    }
+
+    // 📊 Accessibility Score Animation
+    window.onload = () => {
+      // Animate accessibility score bar
+      setTimeout(() => {
+        document.getElementById('scoreBar').style.width = '92%';
+      }, 500);
+
+      // ⏱️ Auto Theme Based on Time
+      const hour = new Date().getHours();
+      if (hour >= 19 || hour < 6) {
+        themeIndex = 1; // dark mode
+      } else {
+        themeIndex = 0; // light mode
+      }
+      const [bgStart, bgEnd, textColor] = themes[themeIndex];
+      document.body.style.background = `linear-gradient(to right, ${bgStart}, ${bgEnd})`;
+      document.body.style.color = textColor;
+
+      // Preload voices for summary
+      speechSynthesis.onvoiceschanged = () => {};
+    };
+  </script>
+</body>
+</html>

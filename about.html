@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About Us - Women Security System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #fff0f5;
+      padding: 40px;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      color: #c2185b;
+      text-align: center;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+    ul {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    select {
+      padding: 8px;
+      font-size: 1em;
+      margin-top: 10px;
+    }
+    #safetyMessage {
+      font-weight: bold;
+      color: #555;
+      margin-top: 10px;
+      text-align: center;
+    }
+    .section {
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>About Us</h1>
+    <p>Women Security System is an initiative to provide a safe and secure environment for women using technology. Our mission is to create an accessible platform that can offer quick support in times of emergency.</p>
+    <p>We empower women through real-time tracking, alert systems, safety tips, and integration with emergency services. Our system is user-friendly, reliable, and built with love to help women feel confident and safe wherever they are.</p>
+
+    <div class="section">
+      <h2>Our Mission</h2>
+      <p>To leverage technology in ensuring every woman feels safe, secure, and empowered in any environment.</p>
+
+      <h2>Our Vision</h2>
+      <p>To become the most reliable digital safety companion for women across the globe.</p>
+    </div>
+
+    <div class="section">
+      <h2>Our Team</h2>
+      <p>Meet the passionate team working tirelessly to ensure women's safety through technology:</p>
+      <ul>
+        <li><strong>Ayesha Sharma</strong> – Founder & Women’s Rights Advocate</li>
+        <li><strong>Ravi Kumar</strong> – Lead Developer & Tech Architect</li>
+        <li><strong>Meera Nair</strong> – AI & Data Security Specialist</li>
+        <li><strong>Sneha Gupta</strong> – Community Engagement Manager</li>
+      </ul>
+    </div>
+
+    <!-- ✅ Feature #4: AI-Powered Safety Sentiment Selector -->
+    <div class="section">
+      <h2>How Safe Do You Feel Today?</h2>
+      <p style="text-align: center;">Your response helps us personalize safety content for you.</p>
+      <div style="text-align: center;">
+        <select onchange="showSafetyMessage(this.value)">
+          <option value="">Select your answer</option>
+          <option value="safe">Very Safe</option>
+          <option value="okay">Somewhat Safe</option>
+          <option value="unsafe">Not Safe</option>
+        </select>
+        <p id="safetyMessage"></p>
+      </div>
+    </div>
+
+    <!-- ✅ Feature #7: Ethical AI Policy -->
+    <div class="section">
+      <h2>Our Ethical AI Policy</h2>
+      <p>We are committed to developing AI features that prioritize privacy, transparency, and user consent. Our AI voice assistant, threat detection, and real-time tracking systems are built to serve users without compromising data safety or control.</p>
+      <ul>
+        <li>🔒 <strong>Privacy First:</strong> We never share your data without permission.</li>
+        <li>⚖️ <strong>Fair Use:</strong> AI decisions are monitored for fairness and bias.</li>
+        <li>👤 <strong>User Control:</strong> You can enable or disable AI features anytime.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- JavaScript for AI response -->
+  <script>
+    function showSafetyMessage(value) {
+      const msg = {
+        safe: "Great! Stay aware and continue sharing safety tips with others.",
+        okay: "Thank you for your response. Check out our daily safety tips to stay more confident.",
+        unsafe: "We're here for you. Please explore our SOS and emergency services anytime."
+      };
+      document.getElementById("safetyMessage").innerText = msg[value] || "";
+    }
+  </script>
+</body>
+</html>
+

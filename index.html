@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Women Security System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #ffe0f0, #fad0c4);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .title {
+      font-size: 42px;
+      font-weight: bold;
+      margin-top: 60px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .letter {
+      opacity: 0;
+      display: inline-block;
+      transform: scale(0.5);
+      animation: popIn 0.4s forwards;
+      font-size: 48px;
+      color: #c2185b;
+      margin: 0 3px;
+    }
+
+    @keyframes popIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.5) translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .tagline {
+      font-size: 20px;
+      color: #5d1049;
+      margin-top: 10px;
+      margin-bottom: 30px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .buttons button {
+      background: linear-gradient(135deg, #f06292, #ec407a);
+      color: white;
+      border: none;
+      padding: 14px 30px;
+      border-radius: 40px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 15px rgba(236, 64, 122, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .buttons button:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 20px rgba(236, 64, 122, 0.4);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      width: 90%;
+      max-width: 1000px;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      transition: 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: #ec407a;
+    }
+
+    .card p {
+      color: #555;
+      font-size: 15px;
+    }
+
+    .sos-button {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      background-color: #ff1744;
+      color: white;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 50%;
+      font-size: 24px;
+      box-shadow: 0 5px 15px rgba(255, 23, 68, 0.5);
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.15);
+      }
+    }
+
+    footer {
+      background: #fff;
+      color: #555;
+      margin-top: auto;
+      width: 100%;
+      padding: 30px 20px 10px;
+      text-align: center;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+
+    .footer-links a {
+      color: #c2185b;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .social-icons {
+      margin-top: 10px;
+    }
+
+    .social-icons a {
+      margin: 0 10px;
+      color: #ec407a;
+      font-size: 20px;
+      text-decoration: none;
+    }
+
+    .copy {
+      font-size: 13px;
+      margin-top: 10px;
+      color: #999;
+    }
+
+    @media (max-width: 600px) {
+      .buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body onload="animateTitle()">
+
+  <div class="title" id="animated-title"></div>
+  <div class="tagline">Empowering Safety & Confidence for Every Woman</div>
+
+  <div class="buttons">
+    <button onclick="window.location.href='login.html'"><i class="bi bi-box-arrow-in-right"></i> Login</button>
+    <button onclick="window.location.href='register.html'"><i class="bi bi-pencil-square"></i> Sign Up</button>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3><i class="bi bi-geo-alt-fill"></i> Real-Time Tracking</h3>
+      <p>Track your location and share with trusted contacts in emergencies.</p>
+    </div>
+    <div class="card">
+      <h3><i class="bi bi-bell-fill"></i> Instant Alert</h3>
+      <p>Send instant SOS alerts with one tap to emergency contacts.</p>
+    </div>
+    <div class="card">
+      <h3><i class="bi bi-shield-lock-fill"></i> Safety Tips</h3>
+      <p>Access curated safety tips and self-defense techniques.</p>
+    </div>
+    <div class="card">
+      <h3><i class="bi bi-building"></i> Police Integration</h3>
+      <p>Quick access to nearby police stations and services.</p>
+    </div>
+  </div>
+
+  <button class="sos-button" title="Send SOS" onclick="window.location.href='sos.html'">
+    <i class="bi bi-exclamation-triangle-fill"></i>
+  </button>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="help.html">Help</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy.html">Privacy Policy</a>
+    </div>
+
+    <div class="social-icons">
+      <a href="https://facebook.com" target="_blank"><i class="bi bi-facebook"></i></a>
+      <a href="https://instagram.com" target="_blank"><i class="bi bi-instagram"></i></a>
+      <a href="https://twitter.com" target="_blank"><i class="bi bi-twitter-x"></i></a>
+      <a href="https://youtube.com" target="_blank"><i class="bi bi-youtube"></i></a>
+    </div>
+
+    <div class="copy">
+      &copy; 2025 Women Security System | Made with ❤️ for Women's Safety
+    </div>
+  </footer>
+
+  <script>
+    function animateTitle() {
+      const text = "Women Security System";
+      const container = document.getElementById("animated-title");
+      container.innerHTML = "";
+
+      for (let i = 0; i < text.length; i++) {
+        const span = document.createElement("span");
+        span.className = "letter";
+        span.textContent = text[i];
+        span.style.animationDelay = `${i * 0.08}s`;
+        container.appendChild(span);
+      }
+    }
+  </script>
+
+</body>
+</html>

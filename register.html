@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register - Women Security System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #fce4ec, #ffe6f0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .form-container {
+      background: white;
+      padding: 30px 25px;
+      border-radius: 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 350px;
+    }
+    h2 {
+      color: #d81b60;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #d81b60;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #b0124d;
+    }
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    .checkbox-container input {
+      margin-right: 10px;
+    }
+    .checkbox-container a {
+      color: #d81b60;
+      text-decoration: none;
+    }
+    .checkbox-container a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Create Account</h2>
+    <form id="register-form">
+      <input type="text" name="name" placeholder="Full Name" required />
+      <input type="email" name="email" placeholder="Email Address" required />
+      <input type="tel" name="phone" placeholder="Phone Number" required />
+      <input type="tel" name="emergency" placeholder="Emergency Contact Number" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <input type="password" name="confirmPassword" placeholder="Confirm Password" required />
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="agree" required />
+        <label for="agree">I agree to the <a href="privacy.html" target="_blank">Privacy Policy</a></label>
+      </div>
+
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("register-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const name = document.querySelector("input[name='name']").value.trim();
+      const email = document.querySelector("input[name='email']").value.trim();
+      const phone = document.querySelector("input[name='phone']").value.trim();
+      const emergency = document.querySelector("input[name='emergency']").value.trim();
+      const password = document.querySelector("input[name='password']").value;
+      const confirmPassword = document.querySelector("input[name='confirmPassword']").value;
+      const agreed = document.getElementById("agree").checked;
+
+      if (!agreed) {
+        alert("You must agree to the Privacy Policy.");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+      // Save to localStorage
+      const userData = {
+        name,
+        email,
+        phone,
+        emergency,
+        password
+      };
+      localStorage.setItem("userData", JSON.stringify(userData));
+
+      alert("Registration successful!");
+      window.location.href = "2page.html"; // or home page
+    });
+  </script>
+</body>
+</html>
+

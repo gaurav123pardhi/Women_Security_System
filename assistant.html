@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Assistant</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #fff0f5;
+      padding: 20px;
+    }
+    h2 {
+      color: #c2185b;
+      text-align: center;
+    }
+    #chatBox {
+      width: 90%;
+      max-width: 600px;
+      margin: 20px auto;
+      background: #fce4ec;
+      padding: 20px;
+      border-radius: 10px;
+      min-height: 300px;
+      overflow-y: auto;
+    }
+    .chat-user, .chat-bot {
+      padding: 10px 15px;
+      border-radius: 15px;
+      margin: 10px 0;
+      position: relative;
+    }
+    .chat-user {
+      background: #f8bbd0;
+      text-align: right;
+    }
+    .chat-bot {
+      background: #c5cae9;
+      text-align: left;
+    }
+    .timestamp {
+      display: block;
+      font-size: 0.7em;
+      color: #555;
+      margin-top: 5px;
+    }
+    input, select {
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 1em;
+    }
+    button {
+      padding: 10px 16px;
+      background: #ec407a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    .controls {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .quick-replies {
+      text-align: center;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h2>💬 Virtual Assistant</h2>
+
+  <div class="controls">
+    <label for="language">🌐 Language:</label>
+    <select id="language">
+      <option value="en">English</option>
+      <option value="hi">Hindi</option>
+      <option value="mr">Marathi</option>
+    </select>
+
+    <label for="mode">🧬 Mode:</label>
+    <select id="mode">
+      <option value="friendly">Friendly</option>
+      <option value="professional">Professional</option>
+      <option value="emergency">Emergency</option>
+    </select>
+  </div>
+
+  <div id="chatBox">
+    <div class="chat-bot">🤖 Assistant: How can I assist you today?<span class="timestamp">${new Date().toLocaleTimeString()}</span></div>
+  </div>
+
+  <div class="quick-replies">
+    <!-- <button onclick="quickReply('help')">🆘 Help</button>
+    <button onclick="quickReply('police')">🚓 Police</button>
+    <button onclick="quickReply('location')">📍 Location</button> -->
+    <button onclick="downloadChat()">⬇️ Download Chat</button>
+  </div>
+
+  <div style="text-align:center">
+    <input type="text" id="userInput" placeholder="Type your query here...">
+    <button onclick="reply()">Send</button>
+    <button onclick="startListening()">🎙️ Speak</button>
+  </div>
+
+  <script>
+    const translations = {
+      hi: {
+        help: "आप एसओएस बटन दबा सकते हैं या महिलाओं की हेल्पलाइन 1091 पर कॉल कर सकते हैं।",
+        police: "100 पर कॉल करें या पुलिस सहायता के लिए इमरजेंसी सेवाओं पर क्लिक करें।",
+        location: "आपका लाइव लोकेशन 'Live Location & SOS' पेज से साझा किया जा सकता है।",
+        report: "कृपया 'Report & Feedback' सेक्शन पर जाएं।",
+        default: "माफ करें, कृपया 'help', 'police', 'location' या 'report' टाइप करें।"
+      },
+      mr: {
+        help: "तुम्ही एसओएस बटण दाबू शकता किंवा 1091 या महिला हेल्पलाइनवर कॉल करू शकता.",
+        police: "100 वर कॉल करा किंवा पोलिस मदतीसाठी आपत्कालीन सेवा निवडा.",
+        location: "तुमचे थेट स्थान 'Live Location & SOS' पृष्ठावरून शेअर केले जाऊ शकते.",
+        report: "कृपया 'Report & Feedback' विभागाला भेट द्या.",
+        default: "माफ करा, कृपया 'help', 'police', 'location' किंवा 'report' वापरा."
+      }
+    };
+
+    const chatHistory = [];
+
+    function reply() {
+      const box = document.getElementById("chatBox");
+      const input = document.getElementById("userInput");
+      const userText = input.value.trim();
+      const lang = document.getElementById("language").value;
+      const mode = document.getElementById("mode").value;
+      if (!userText) return;
+
+      const time = new Date().toLocaleTimeString();
+      box.innerHTML += `<div class="chat-user">👤 You: ${userText}<span class="timestamp">${time}</span></div>`;
+      chatHistory.push(`You: ${userText} [${time}]`);
+
+      let response = translations[lang]?.default || "Sorry, I couldn't understand.";
+      const msg = userText.toLowerCase();
+
+      const distressWords = ["scared", "alone", "followed", "unsafe"];
+      if (distressWords.some(word => msg.includes(word))) {
+        response = "⚠️ It sounds like you're in distress. Would you like to trigger SOS?";
+      }
+
+      if (msg.includes("banana")) {
+        response = "🚨 Secret SOS word detected. Sending emergency alert...";
+      }
+
+      if (msg.includes("help")) {
+        response = translations[lang]?.help;
+      } else if (msg.includes("police")) {
+        response = translations[lang]?.police;
+      } else if (msg.includes("location")) {
+        response = translations[lang]?.location;
+      } else if (msg.includes("report")) {
+        response = translations[lang]?.report;
+      }
+
+      if (mode === "friendly") {
+        response = "😊 " + response;
+      } else if (mode === "professional") {
+        response = "🔎 " + response;
+      } else if (mode === "emergency") {
+        response = "🚨 " + response;
+      }
+
+      box.innerHTML += `<div class="chat-bot">🤖 Assistant: ${response}<span class="timestamp">${time}</span></div>`;
+      chatHistory.push(`Assistant: ${response} [${time}]`);
+      speak(response);
+      input.value = "";
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function speak(text) {
+      const synth = window.speechSynthesis;
+      const utterance = new SpeechSynthesisUtterance(text);
+      const lang = document.getElementById("language").value;
+      utterance.lang = (lang === 'hi') ? 'hi-IN' : (lang === 'mr') ? 'mr-IN' : 'en-IN';
+      synth.speak(utterance);
+    }
+
+    function startListening() {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = "en-IN";
+      recognition.start();
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById("userInput").value = transcript;
+        reply();
+      };
+      recognition.onerror = function(event) {
+        alert("Voice input failed. Try again.");
+      };
+    }
+
+    function quickReply(text) {
+      document.getElementById("userInput").value = text;
+      reply();
+    }
+
+    function downloadChat() {
+      const blob = new Blob([chatHistory.join('\n')], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = "chat_history.txt";
+      a.click();
+    }
+  </script>
+</body>
+</html>
